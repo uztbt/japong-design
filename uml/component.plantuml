@@ -3,23 +3,28 @@
 title "Component Diagram of JaPong"
 
 package Server {
-    folder "Process" as serverProcess {
+    folder "Process" as gameManagementProcess {
         [Game State Management]
-        interface "Command" as GamaStateManagementCommand
-        [Game State Management] -- GamaStateManagementCommand
+        interface "/game/input" as GameStateManagementCommand
+        [Game State Management] -- GameStateManagementCommand
+        interface "/game/management" as GameState
+        GameState - [Game State Management]
+        interface "/game/court" as Court
+        [Game State Management] --> Court
+    }
+    folder "Process" as roomManagementProcess {
         [Room Management]
-        interface "Request" as RoomManagementCommand
+        interface "/room/management" as RoomManagementCommand
         [Room Management] -- RoomManagementCommand
+        GameState <- [Room Management]
     }
 }
 
 package Client {
     folder "Process" as clientProcess {
-        [Rendering] -right- UI
-        [Game State Management] -down-> UI
-        [Room Management] - UI
-        [User Input] -up-> GamaStateManagementCommand
-        [User Input] -up-> RoomManagementCommand
+        [Form] -up-> RoomManagementCommand
+        [Game Rendering] -up-> Court
+        [Game Input] -up-> GameStateManagementCommand
     }
 }
 

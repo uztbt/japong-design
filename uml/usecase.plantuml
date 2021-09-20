@@ -15,7 +15,7 @@ Socialize -- Tournament
 
 package "JaPong" {
     usecase "Kill time" as KillTime
-    usecase "Have Fun" as Fun
+    usecase "Have fun" as Fun
     usecase "Play Pong on the web" as Pong
     
     Player -- KillTime
@@ -24,17 +24,21 @@ package "JaPong" {
     Fun -- Pong
     rectangle Alone {
         usecase "With somebody else" as RandomMatch
-        note right of RandomMatch : 2nd
         usecase "With CPU" as CPU
-        note right of CPU : 1st
         Pong -- RandomMatch
         Pong -- CPU
     }
     rectangle "With Frineds" {
         usecase "With frineds" as WithFriends
-        note right of WithFriends : 3rd
         Pong -- WithFriends
+        usecase "Choose room" as ChooseRoom
+        WithFriends -- ChooseRoom
+        usecase "Player name" as PlayerName
+        WithFriends -- PlayerName
     }
+    usecase "Low latency" as LowLatency
+    WithFriends -- LowLatency
+    RandomMatch -- LowLatency
 }
 
 @enduml
