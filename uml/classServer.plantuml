@@ -2,7 +2,7 @@
 
 title "Class Diagram of JaPong Server"
 
-package "House Management" as HouseManagement {
+package "Cluster Management" as HouseManagement {
     class "RestServer" as RestServerHM {
         map
         listen()

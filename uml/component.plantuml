@@ -13,15 +13,15 @@ folder "Process" as gameManagementProcess {
     [Node I/O] -- GameOutputIF
 }
 folder "Process" as roomManagementProcess {
-    [House Management]
-    interface "HTTP /games" as HouseManagementIF
-    [House Management] -- HouseManagementIF
-    NodeIOIF <- [House Management]
+    [Cluster Management]
+    interface "HTTP /games" as ClusterManagementIF
+    [Cluster Management] -- ClusterManagementIF
+    NodeIOIF <- [Cluster Management]
 }
 
 package Client {
     folder "Process" as clientProcess {
-        [Form] -up-> HouseManagementIF
+        [Form] -up-> ClusterManagementIF
         [Game Rendering] -up-> GameOutputIF
         [Game Input] -up-> GameInputIF
     }

@@ -1,18 +1,33 @@
 @startuml
+title "Deployment Diagram of JaPong"
 
 actor Player
-cloud "GCP us-central1-a" {
-  node "Virtual Machine" {
-    component "Blog Server" as Blog
-    component "JaPong Server" as JaPong {
-      component "Room Management" as RoomManagement
-      component "Game Management" as GameManagement
+cloud "GCP" {
+  rectangle "Asia-Northeast" {
+    node "Cloud Run" as RunAN {
+      component "Node I/O" as NodeIOAN
+      component "Game Engine" as GameEngineAN
+    }
+  }
+  rectangle "US-Central" {
+    node "Cloud Run" as ClusterManagementNode {
+      component "Cluster Management" as ClusterManagement
+    }
+    node "Cloud Run" as RunUC {
+      component "Node I/O" as NodeIOUC
+      component "Game Engine" as GameEngineUC
+    }
+    node "Virtual Machine" {
+      component "Web Server" as WebServer
     }
   }
 }
 
-Blog <-- Player: 1
-RoomManagement <-- Player: 2
-GameManagement <-- Player: 3
-
+WebServer <-- Player: 1
+ClusterManagement <-- Player: 2
+NodeIOAN <-- Player: 3
+GameEngineAN "*" - "1" NodeIOAN
+GameEngineUC "*" - "1" NodeIOUC
+NodeIOAN <-- ClusterManagement
+NodeIOUC <-- ClusterManagement
 @enduml
