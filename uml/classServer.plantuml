@@ -2,72 +2,84 @@
 
 title "Class Diagram of JaPong Server"
 
-package Server {
-    package "Room Management" as RoomManagement {
-        class RoomManagement {
-            onGameOver()
-        }
-        class "Game Room" as GameRoom {
-            game: Game | null
-            sockets: Socket[]
-        }
-        RoomManagement *-- GameRoom
-    }
-    package "Game State Management" as GameStateManagement {
-        class Game {
-        ballLaunchTimer
-        onScored(entity)
-        scheduleBallLaunch(frames)
-        update(): boolean
-        loop(timestamp)
-        }
-
-        class Paddle {
-        speed
-        input()
-        updateVelocity()
-        update()
-        }
-
-        class Ball {
-        speed, acceleration
-        angle, deltaAngle
-        lastHitBy
-        boundLeftwardScale()
-        ' boundRightwardScale()
-        updateVelocity()
-        randomAngle()
-        ' flipHorizontally()
-        ' boundByCollision(paddle)
-        updateBasedOnCanvasBoundary(canvas)
-        updateBasedOnCollision(paddle, computer)
-        update(player, computer, canvas)
-        }
-
-        class Line {
-        }
-
-        abstract "Drawable"  as DrawableServer {
-        width, height
-        x, y
-        serialize()
-        }
-
-        abstract Movable {
-        vx, vy
-        updatePosition()
-        }
-
-        Game *--- Paddle
-        Game *--- Ball
-        Game *-- Line
-
-        DrawableServer <|-- Movable
-        DrawableServer <|-- Line
-
-        Movable <|-- Paddle
-        Movable <|-- Ball
+package "House Management" as HouseManagement {
+    class "RestServer" as RestServerHM {
+        map
+        listen()
     }
 }
+
+package "Node I/O" as NodeIO {
+    class "RestServer" as RestServerRM {
+        map
+        listen()
+    }
+    RestServerRM .. NodeIO
+    
+    class WebSocketServer
+    WebSocketServer .. NodeIO
+
+    class "Game Engine" as GameEngine {
+        game: Game | null
+        sockets: Socket[]
+    }
+    NodeIO "1" *-- "*" GameEngine
+}
+package "Game Engine" as GameStateManagement {
+    class Game {
+    ballLaunchTimer
+    onScored(entity)
+    scheduleBallLaunch(frames)
+    update(): boolean
+    loop(timestamp)
+    }
+
+    class Paddle {
+    speed
+    input()
+    updateVelocity()
+    update()
+    }
+
+    class Ball {
+    speed, acceleration
+    angle, deltaAngle
+    lastHitBy
+    boundLeftwardScale()
+    ' boundRightwardScale()
+    updateVelocity()
+    randomAngle()
+    ' flipHorizontally()
+    ' boundByCollision(paddle)
+    updateBasedOnCanvasBoundary(canvas)
+    updateBasedOnCollision(paddle, computer)
+    update(player, computer, canvas)
+    }
+
+    class Line {
+    }
+
+    abstract "Drawable"  as DrawableServer {
+    width, height
+    x, y
+    serialize()
+    }
+
+    abstract Movable {
+    vx, vy
+    updatePosition()
+    }
+
+    Game *--- Paddle
+    Game *--- Ball
+    Game *-- Line
+
+    DrawableServer <|-- Movable
+    DrawableServer <|-- Line
+
+    Movable <|-- Paddle
+    Movable <|-- Ball
+}
+
 
 @enduml

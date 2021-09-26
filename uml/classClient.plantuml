@@ -3,6 +3,27 @@
 title "Class Diagram of JaPong Client"
 
 package "Client" {
+    package Form {
+        class RestClient {
+            url
+            get(path)
+            post(path, data)
+        }
+
+        class NameForm {
+            name
+            input()
+            enter()
+        }
+
+        class Table {
+            data
+            show()
+        }
+        RestClient .. NameForm
+        RestClient .. Table
+    }
+
     package "User Input" {
         interface Transmitter {
             send()
@@ -37,9 +58,7 @@ package "Client" {
             type
             draw()
         }
-        class Circle {}
         class Rect {}
-        DrawableClient <|-- Circle
         DrawableClient <|-- Rect
         class DrawableBuffer {
             drawables
