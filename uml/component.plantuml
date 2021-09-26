@@ -2,29 +2,28 @@
 
 title "Component Diagram of JaPong"
 
-package Server {
-    folder "Process" as gameManagementProcess {
-        [Game State Management]
-        interface "/game/input" as GameStateManagementCommand
-        [Game State Management] -- GameStateManagementCommand
-        interface "/game/management" as GameState
-        GameState - [Game State Management]
-        interface "/game/court" as Court
-        [Game State Management] --> Court
-    }
-    folder "Process" as roomManagementProcess {
-        [Room Management]
-        interface "/room/management" as RoomManagementCommand
-        [Room Management] -- RoomManagementCommand
-        GameState <- [Room Management]
-    }
+folder "Process" as gameManagementProcess {
+    [Game Engine]
+    [Game Engine] "*" - "1" [Node I/O]
+    interface "HTTP /games" as NodeIOIF
+    [Node I/O] - NodeIOIF
+    interface "WebSocket\n/game/x/input" as GameInputIF
+    [Node I/O] -- GameInputIF
+    interface "WebSocket\n/game/x/output" as GameOutputIF
+    [Node I/O] -- GameOutputIF
+}
+folder "Process" as roomManagementProcess {
+    [House Management]
+    interface "HTTP /games" as HouseManagementIF
+    [House Management] -- HouseManagementIF
+    NodeIOIF <- [House Management]
 }
 
 package Client {
     folder "Process" as clientProcess {
-        [Form] -up-> RoomManagementCommand
-        [Game Rendering] -up-> Court
-        [Game Input] -up-> GameStateManagementCommand
+        [Form] -up-> HouseManagementIF
+        [Game Rendering] -up-> GameOutputIF
+        [Game Input] -up-> GameInputIF
     }
 }
 
