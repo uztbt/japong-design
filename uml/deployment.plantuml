@@ -23,9 +23,9 @@ cloud "GCP" {
   }
 }
 
-WebServer <-- Player: 1
-ClusterManagement <-- Player: 2
-NodeIOAN <-- Player: 3
+WebServer <-- Player
+ClusterManagement <-- Player
+NodeIOAN <-- Player
 GameEngineAN "*" - "1" NodeIOAN
 GameEngineUC "*" - "1" NodeIOUC
 NodeIOAN <-- ClusterManagement
