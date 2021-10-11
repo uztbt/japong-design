@@ -18,13 +18,13 @@ jobs:
       with:
         output: swagger-ui-tmp/nodeIO
         spec-file: "${{ github.workspace }}/api/nodeio/openapi.yaml"
-    - id: upload-files
-      uses: google-github-actions/upload-cloud-storage@main
+    - uses: google-github-actions/upload-cloud-storage@main
       with:
+        credentials: ${{ secrets.gcp_credentials }}
         path: swagger-ui-tmp/clusterManagement
         destination: japong-api-doc
-    - id: upload-files
-      uses: google-github-actions/upload-cloud-storage@main
+    - uses: google-github-actions/upload-cloud-storage@main
       with:
+        credentials: ${{ secrets.gcp_credentials }}
         path: swagger-ui-tmp/nodeIO
         destination: japong-api-doc
