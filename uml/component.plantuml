@@ -19,6 +19,8 @@ folder "Process" as gameManagementProcess {
     [Node I/O] -- CountDownIF
     interface "WebSocket\n/joinedRoom" as JoinedRoomIF
     [Node I/O] -- JoinedRoomIF
+    interface "WebSocket\n/joinRoom" as JoinRoomIF
+    [Node I/O] -- JoinRoomIF
 }
 folder "Process" as roomManagementProcess {
     [Cluster Management]
@@ -30,6 +32,7 @@ folder "Process" as roomManagementProcess {
 package Client {
     folder "Process" as clientProcess {
         [Form] -up-> ClusterManagementIF
+        [Form] -up-> JoinRoomIF
         [Game Rendering] -up-> OpponentLeftIF
         [Game Rendering] -up-> GameOverIF
         [Game Rendering] -up-> GameBoardIF

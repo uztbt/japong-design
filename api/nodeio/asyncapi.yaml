@@ -12,6 +12,11 @@ servers:
     protocol: ws
     description: asia-northeast JaPong node.
 channels:
+  joinRoom:
+    publish:
+      summary: Send a request to join a room.
+      message:
+        $ref: '#/components/messages/joinRoom'
   commandDict:
     publish:
       summary: Send player inputs to the server.
@@ -46,6 +51,34 @@ channels:
 
 components:
   messages:
+    joinRoom:
+      name: JoinRoom
+      payload:
+        type: object
+        properties:
+          roomNo:
+            type: integer
+            example: 4
+          playerId:
+            type: integer
+            example: 0
+          playerName:
+            type: string
+            example: Kevin
+    joinedRoom:
+      name: JoinedRoom
+      payload:
+        type: object
+        properties:
+          roomNo:
+            type: integer
+            example: 2
+          playerId:
+            type: integer
+            example: 0
+          playerName:
+            type: string
+            example: Kevin
     command-dictionary:
       name: CommandDictionary
       payload:
@@ -53,16 +86,22 @@ components:
         properties:
           UP:
             type: boolean
+            example: false
           DOWN:
             type: boolean
+            example: false
           LEFT:
             type: boolean
+            example: true
           RIGHT:
             type: boolean
+            example: true
           ENTER:
             type: boolean
+            example: false
           MOVE:
             type: boolean
+            example: false
     board:
       name: Board
       payload:
@@ -81,10 +120,16 @@ components:
                   type: integer
                 h:
                   type: integer
+            example: [
+              {x: 30, y: 10, w: 100, h: 20},
+              {x: 55, y: 100, w: 5, h: 5},
+              {x: 40, y: 230, w: 100, h: 20}
+            ]
           scores:
             type: array
             items:
               type: integer
+            example: [1, 2]
     gameOver:
       name: GameOver
       payload:
@@ -94,15 +139,7 @@ components:
             type: array
             items:
               type: integer
-    joinedRoom:
-      name: JoinedRoom
-      payload:
-        type: object
-        properties:
-          roomNo:
-            type: integer
-          playerId:
-            type: integer
+            example: [3, 2]
     opponentLeft:
       name: OpponentLeft
       payload:
@@ -111,3 +148,4 @@ components:
       name: CountDown
       payload:
         type: integer
+        example: 1
