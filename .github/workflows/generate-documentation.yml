@@ -6,25 +6,25 @@ jobs:
     steps:
     - name: Check out repository
       uses: actions/checkout@v2
-    - run: mkdir swagger-ui-tmp
+    - run: mkdir swagger-ui
     - run: echo "The ${{ github.repositort }} repository has been cloned to the runner."
     - name: Generate Swagger UI
       uses: Legion2/swagger-ui-action@v1
       with:
-        output: swagger-ui-tmp/clusterManagement
+        output: swagger-ui/clusterManagement
         spec-file: "${{ github.workspace }}/api/clusterManagement/openapi.yaml"
     - name: Generate Swagger UI
       uses: Legion2/swagger-ui-action@v1
       with:
-        output: swagger-ui-tmp/nodeIO
+        output: swagger-ui/nodeIO
         spec-file: "${{ github.workspace }}/api/nodeio/openapi.yaml"
     - uses: google-github-actions/upload-cloud-storage@main
       with:
         credentials: ${{ secrets.gcp_credentials }}
-        path: swagger-ui-tmp/clusterManagement
+        path: swagger-ui/clusterManagement
         destination: japong-api-doc
     - uses: google-github-actions/upload-cloud-storage@main
       with:
         credentials: ${{ secrets.gcp_credentials }}
-        path: swagger-ui-tmp/nodeIO
+        path: swagger-ui/nodeIO
         destination: japong-api-doc
