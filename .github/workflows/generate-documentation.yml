@@ -11,10 +11,10 @@ jobs:
       uses: Legion2/swagger-ui-action@v1
       with:
         output: clusterManagement
-        spec-file: "${{ github.workspace }}/api/clusterManagement/openapi.json"
+        spec-file: "${{ github.workspace }}/api/clusterManagement/openapi.yaml"
     - name: Generate Swagger UI
       uses: Legion2/swagger-ui-action@v1
       with:
         output: nodeIO
-        spec-file: "${{ github.workspace }}/api/nodeio/openapi.json"
+        spec-file: "${{ github.workspace }}/api/nodeio/openapi.yaml"
     - run: ls
