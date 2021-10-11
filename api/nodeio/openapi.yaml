@@ -1,0 +1,27 @@
+openapi: 3.0.0
+info:
+  title: JaPong Node I/O
+  description: API specification of JaPong Node I/O
+    contact:
+    name: Yuji Tabata
+    url: https://yuji.page
+    email: yuji.jd.tabata@gmail.com
+  version: 0.1.0
+servers:
+- url: https://us-central.japong.yuji.page
+  description: JaPong node in the us-central region
+- url: https://asia-northeast.japong.yuji.page
+  description: JaPong node in the asia-northeast region
+paths:
+  /games:
+    get:
+      description: Returns the overview of all the game rooms in the node.
+      responses:
+        '200':
+          description: A list of game overviews.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GameOverview'

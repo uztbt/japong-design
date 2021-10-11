@@ -3,10 +3,14 @@ info:
   title: Node I/O application.
   version: '0.1.0'
 servers:
-  production:
-    url: japong.yuji.page
+  us-central:
+    url: us-central.japong.yuji.page
     protocol: ws
-    description: Production node I/O server
+    description: us-central JaPong node.
+  asia-northeast:
+    url: asia-northeast.japong.yuji.page
+    protocol: ws
+    description: asia-northeast JaPong node.
 channels:
   commandDict:
     publish:
@@ -24,6 +28,21 @@ channels:
       summary: Get notified when the game is over.
       message:
         $ref: '#/components/messages/gameOver'
+  joinedRoom:
+    subscribe:
+      summary: Get notified about if you successfully joined a room.
+      message:
+        $ref: '#/components/messages/joinedRoom'
+  opponentLeft:
+    subscribe:
+      summary: Get notified when your opponent left.
+      message:
+        $ref: '#/components/messages/opponentLeft'
+  countDown:
+    subscribe:
+      summary: Get the seconds until the game starts.
+      message:
+        $ref: '#/components/messages/countDown'
 
 components:
   messages:
@@ -75,4 +94,20 @@ components:
             type: array
             items:
               type: integer
-            
+    joinedRoom:
+      name: JoinedRoom
+      payload:
+        type: object
+        properties:
+          roomNo:
+            type: integer
+          playerId:
+            type: integer
+    opponentLeft:
+      name: OpponentLeft
+      payload:
+        type: object
+    countDown:
+      name: CountDown
+      payload:
+        type: integer

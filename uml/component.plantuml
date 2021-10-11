@@ -9,10 +9,16 @@ folder "Process" as gameManagementProcess {
     [Node I/O] - NodeIOIF
     interface "WebSocket\n/commandDict" as GameCommandDictIF
     [Node I/O] -- GameCommandDictIF
-    interface "WebSocket\n/board" as GameBoardIF
-    [Node I/O] -- GameBoardIF
+    interface "WebSocket\n/opponentLeft" as OpponentLeftIF
+    [Node I/O] -- OpponentLeftIF
     interface "WebSocket\n/gameOver" as GameOverIF
     [Node I/O] -- GameOverIF
+    interface "WebSocket\n/board" as GameBoardIF
+    [Node I/O] -- GameBoardIF
+    interface "WebSocket\n/countDown" as CountDownIF
+    [Node I/O] -- CountDownIF
+    interface "WebSocket\n/joinedRoom" as JoinedRoomIF
+    [Node I/O] -- JoinedRoomIF
 }
 folder "Process" as roomManagementProcess {
     [Cluster Management]
@@ -24,8 +30,11 @@ folder "Process" as roomManagementProcess {
 package Client {
     folder "Process" as clientProcess {
         [Form] -up-> ClusterManagementIF
-        [Game Rendering] -up-> GameBoardIF
+        [Game Rendering] -up-> OpponentLeftIF
         [Game Rendering] -up-> GameOverIF
+        [Game Rendering] -up-> GameBoardIF
+        [Game Rendering] -up-> CountDownIF
+        [Game Rendering] -up-> JoinedRoomIF
         [Game Input] -up-> GameCommandDictIF
     }
 }
