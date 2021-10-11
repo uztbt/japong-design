@@ -1,7 +1,7 @@
 name: GitHub Actions Demo
 on: [push]
 jobs:
-  ProcessOpenAPI:
+  ProcessAPIDocumentation:
     runs-on: ubuntu-latest
     steps:
     - name: Check out repository
@@ -24,7 +24,7 @@ jobs:
       with:
         template: '@asyncapi/html-template@0.15.4'  #In case of template from npm, because of @ it must be in quotes
         filepath: api/nodeio/asyncapi.yaml
-        parameters: baseHref=/test-experiment/ sidebarOrganization=byTags #space separated list of key/values
+        parameters: baseHref=/japong-api-doc/asyncapi-html/nodeIO/
         output: asyncapi-html/nodeIO
     - uses: google-github-actions/upload-cloud-storage@main
       with:
