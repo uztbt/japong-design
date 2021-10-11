@@ -7,10 +7,12 @@ folder "Process" as gameManagementProcess {
     [Game Engine] "*" - "1" [Node I/O]
     interface "HTTP /games" as NodeIOIF
     [Node I/O] - NodeIOIF
-    interface "WebSocket\n/game/x/input" as GameInputIF
-    [Node I/O] -- GameInputIF
-    interface "WebSocket\n/game/x/output" as GameOutputIF
-    [Node I/O] -- GameOutputIF
+    interface "WebSocket\n/commandDict" as GameCommandDictIF
+    [Node I/O] -- GameCommandDictIF
+    interface "WebSocket\n/board" as GameBoardIF
+    [Node I/O] -- GameBoardIF
+    interface "WebSocket\n/gameOver" as GameOverIF
+    [Node I/O] -- GameOverIF
 }
 folder "Process" as roomManagementProcess {
     [Cluster Management]
@@ -22,8 +24,9 @@ folder "Process" as roomManagementProcess {
 package Client {
     folder "Process" as clientProcess {
         [Form] -up-> ClusterManagementIF
-        [Game Rendering] -up-> GameOutputIF
-        [Game Input] -up-> GameInputIF
+        [Game Rendering] -up-> GameBoardIF
+        [Game Rendering] -up-> GameOverIF
+        [Game Input] -up-> GameCommandDictIF
     }
 }
 
