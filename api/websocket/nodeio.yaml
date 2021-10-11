@@ -1,0 +1,78 @@
+asyncapi: 2.0.0
+info:
+  title: Node I/O application.
+  version: '0.1.0'
+servers:
+  production:
+    url: japong.yuji.page
+    protocol: ws
+    description: Production node I/O server
+channels:
+  commandDict:
+    publish:
+      summary: Send player inputs to the server.
+      operationId: onInputReceived
+      message:
+        $ref: '#/components/messages/command-dictionary'
+  board:
+    subscribe:
+      summary: Get the latest game status from the server.
+      message:
+        $ref: '#/components/messages/board'
+  gameOver:
+    subscribe:
+      summary: Get notified when the game is over.
+      message:
+        $ref: '#/components/messages/gameOver'
+
+components:
+  messages:
+    command-dictionary:
+      name: CommandDictionary
+      payload:
+        type: object
+        properties:
+          UP:
+            type: boolean
+          DOWN:
+            type: boolean
+          LEFT:
+            type: boolean
+          RIGHT:
+            type: boolean
+          ENTER:
+            type: boolean
+          MOVE:
+            type: boolean
+    board:
+      name: Board
+      payload:
+        type: object
+        properties:
+          drawables:
+            type: array
+            items:
+              type: object
+              properties:
+                x:
+                  type: integer
+                y:
+                  type: integer
+                w:
+                  type: integer
+                h:
+                  type: integer
+          scores:
+            type: array
+            items:
+              type: integer
+    gameOver:
+      name: GameOver
+      payload:
+        type: object
+        properties:
+          scores:
+            type: array
+            items:
+              type: integer
+            
