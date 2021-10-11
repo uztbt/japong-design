@@ -9,7 +9,7 @@ info:
   version: 0.1.0
 servers:
 - url: https://japong.yuji.page
-  description: Production server
+  description: Production cluster manager server
 paths:
   /games:
     get:
@@ -90,18 +90,26 @@ components:
             - IN_GAME
             - FINISHED
         player0:
-          type: string
+          type: object
+          properties:
+            name:
+              type: string
+            score:
+              type: integer
           nullable: true
         player1:
           type: string
-          nullable: true
-        scores:
-          type: array
-          items:
-            type: integer
+          properties:
+            name:
+              type: string
+            score:
+              type: integer
           nullable: true
       example:
         status: IN_GAME
-        player0: Kevin
-        player1: Eric
-        scores: [2, 1]
+        player0:
+          name: Kevin
+          score: 2
+        player1:
+          name: Eric
+          score: 1
