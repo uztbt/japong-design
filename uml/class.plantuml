@@ -105,4 +105,5 @@ UserControl <.. Paddle: <<Use>>
 JSON ..> UserControl 
 keyDownEvent ..> UserControl
 touchEvent ..> UserControl
+
 @enduml
