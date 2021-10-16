@@ -3,6 +3,19 @@
         <title>Design of JaPong</title>
     </head>
     <body>
+        <div id="api">
+            <ul>
+                <li>
+                    <a href="https://storage.googleapis.com/japong-api-doc/swagger-ui/clusterManagement/index.html">Cluster Manager - HTTP</a>
+                </li>
+                <li>
+                    <a href="https://storage.googleapis.com/japong-api-doc/swagger-ui/nodeIO/index.html">Node I/O - HTTP</a>
+                </li>
+                <li>
+                    <a href="https://storage.googleapis.com/japong-api-doc/asyncapi-html/nodeIO/index.html">Node I/O - Async</a>
+                </li>
+            </ul>
+        </div>
         <div id="uml-list"></div>
         <script>
             const umlList = document.getElementById("uml-list");
@@ -33,13 +46,57 @@
                     console.error(response);
                     return
                 }
-                const imageFilenameList = xml.querySelectorAll("Contents > Key");
-                for (const elem of imageFilenameList) {
-                    console.log(elem.textContent);
+                const imageFilenameElemList = xml.querySelectorAll("Contents > Key");
+                const sortedArray = [...imageFilenameElemList]
+                    .map(elem => elem.textContent)
+                    .sort();
+                let lastHr;
+                for (const filename of sortedArray) {
+                    const figure = createFigure(filename);
+                    umlList.appendChild(figure);
+                    const hr = document.createElement("hr");
+                    hr.className = "solid";
+                    umlList.appendChild(hr);
+                    lastHr = hr;
                 }
-                
+                umlList.removeChild(lastHr);
+            }
+            function createFigure(filename) {
+                const figure = document.createElement("figure");
+                const img = document.createElement("img");
+                img.src = `https://storage.googleapis.com/japong-uml-image/${filename}`;
+                figure.appendChild(img);
+                const figcaption = document.createElement("figcaption");
+                figcaption.innerText = filename;
+                figure.appendChild(figcaption);
+                return figure;
             }
             main();
         </script>
+        <style>
+            #uml-list {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                align-items: center;
+                gap: 20px;                
+            }
+            #uml-list, #uml-list  * {
+                max-width: 800px;
+                max-height: 500px;
+            }
+            #uml-list > * {
+                margin-inline-start: 40px;
+                margin-inline-end: 40px;
+            }
+            figcaption {
+                text-align: center;
+            }
+            hr {
+                width: 800px;
+                border: 0px;
+                border-top: 3px solid #bbb;
+            }
+        </style>
     </body>
 </html>
