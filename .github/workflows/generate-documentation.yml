@@ -1,0 +1,58 @@
+name: GitHub Actions Demo
+on: [push]
+jobs:
+  ProcessAPIDocumentation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - run: mkdir swagger-ui
+      - run: echo "The ${{ github.repositort }} repository has been cloned to the runner."
+      - name: Generate Swagger UI
+        uses: Legion2/swagger-ui-action@v1
+        with:
+          output: swagger-ui/clusterManagement
+          spec-file: "${{ github.workspace }}/api/clusterManagement/openapi.yaml"
+      - name: Generate Swagger UI
+        uses: Legion2/swagger-ui-action@v1
+        with:
+          output: swagger-ui/nodeIO
+          spec-file: "${{ github.workspace }}/api/nodeio/openapi.yaml"
+      - run: mkdir asyncapi-html
+      - name: Generating HTML from my AsyncAPI document
+        uses: asyncapi/github-action-for-generator@v1
+        with:
+          template: "@asyncapi/html-template@0.15.4" #In case of template from npm, because of @ it must be in quotes
+          filepath: api/nodeio/asyncapi.yaml
+          parameters: baseHref=/japong-api-doc/asyncapi-html/nodeIO/
+          output: asyncapi-html/nodeIO
+      - uses: google-github-actions/upload-cloud-storage@main
+        with:
+          credentials: ${{ secrets.gcp_credentials }}
+          path: swagger-ui/clusterManagement
+          destination: japong-api-doc
+      - uses: google-github-actions/upload-cloud-storage@main
+        with:
+          credentials: ${{ secrets.gcp_credentials }}
+          path: swagger-ui/nodeIO
+          destination: japong-api-doc
+      - uses: google-github-actions/upload-cloud-storage@main
+        with:
+          credentials: ${{ secrets.gcp_credentials }}
+          path: asyncapi-html/nodeIO
+          destination: japong-api-doc
+  ProcessPlantuml:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Generate PNG Diagrams
+        uses: cloudbees/plantuml-github-action@master
+        with:
+          args: -tpng -o ../umlImage uml/*.plantuml
+      - uses: google-github-actions/upload-cloud-storage@main
+        with:
+          credentials: ${{ secrets.gcp_credentials }}
+          path: umlImage
+          destination: japong-uml-image
+          parent: false
