@@ -49,9 +49,9 @@ jobs:
       - name: Generate PNG Diagrams
         uses: cloudbees/plantuml-github-action@master
         with:
-          args: -tpng -o ${{ github.workspace }}/umlImage uml/*.plantuml
+          args: -tpng -o ../umlImage uml/*.plantuml
       - uses: google-github-actions/upload-cloud-storage@main
         with:
           credentials: ${{ secrets.gcp_credentials }}
-          path: ${{ github.workspace }}/umlImage
+          path: umlImage
           destination: japong-uml-image
