@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>Design of JaPong</title>
+    </head>
+    <body>
+        <div id="uml-list"></div>
+        <script>
+            const umlList = document.getElementById("uml-list");
+            const expectedResponse = {
+                status: 200,
+                contentType: "application/xml; charset=UTF-8"
+            };
+            async function main() {
+                const response = await fetch("https://storage.googleapis.com/japong-uml-image");
+                if (response.status !== expectedResponse.status) {
+                    umlList.textContent = `Access to https://storage.googleapis.com/japong-uml-image ended with status code ${response.status}`;
+                    console.error(response);
+                    return
+                }
+                const contentType = response.headers.get("content-type");
+                if (contentType !== expectedResponse.contentType) {
+                    umlList.textContent = `https://storage.googleapis.com/japong-uml-image returned a response of content-type ${response.contentType}`;
+                    console.error(response);
+                    return
+                }
+                // Status code is 200 and content-type is xml
+                const xmlString = await response.text();
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(xmlString, "application/xml");
+                const errorNode = xml.querySelector("parsererror");
+                if (errorNode) {
+                    umlList.textContent = `Parse error on the body of https://storage.googleapis.com/japong-uml-image`;
+                    console.error(response);
+                    return
+                }
+                const imageFilenameList = xml.querySelectorAll("Contents > Key");
+                for (const elem of imageFilenameList) {
+                    console.log(elem.textContent);
+                }
+                
+            }
+            main();
+        </script>
+    </body>
+</html>
