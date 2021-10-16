@@ -1,4 +1,4 @@
-@startuml Pong
+@startuml
 
 ' class index {
 '   userInput
