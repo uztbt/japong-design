@@ -1,7 +1,7 @@
 asyncapi: 2.0.0
 info:
   title: Node I/O application.
-  version: '0.1.0'
+  version: "0.1.0"
 servers:
   us-central:
     url: us-central.japong.yuji.page
@@ -16,38 +16,38 @@ channels:
     publish:
       summary: Send a request to join a room.
       message:
-        $ref: '#/components/messages/joinRoom'
+        $ref: "#/components/messages/joinRoom"
   commandDict:
     publish:
       summary: Send player inputs to the server.
       operationId: onInputReceived
       message:
-        $ref: '#/components/messages/command-dictionary'
+        $ref: "#/components/messages/command-dictionary"
   board:
     subscribe:
       summary: Get the latest game status from the server.
       message:
-        $ref: '#/components/messages/board'
+        $ref: "#/components/messages/board"
   gameOver:
     subscribe:
       summary: Get notified when the game is over.
       message:
-        $ref: '#/components/messages/gameOver'
+        $ref: "#/components/messages/gameOver"
   joinedRoom:
     subscribe:
       summary: Get notified about if you successfully joined a room.
       message:
-        $ref: '#/components/messages/joinedRoom'
+        $ref: "#/components/messages/joinedRoom"
   opponentLeft:
     subscribe:
       summary: Get notified when your opponent left.
       message:
-        $ref: '#/components/messages/opponentLeft'
+        $ref: "#/components/messages/opponentLeft"
   countDown:
     subscribe:
       summary: Get the seconds until the game starts.
       message:
-        $ref: '#/components/messages/countDown'
+        $ref: "#/components/messages/countDown"
 
 components:
   messages:
@@ -59,9 +59,6 @@ components:
           roomNo:
             type: integer
             example: 4
-          playerId:
-            type: integer
-            example: 0
           playerName:
             type: string
             example: Kevin
@@ -120,11 +117,12 @@ components:
                   type: integer
                 h:
                   type: integer
-            example: [
-              {x: 30, y: 10, w: 100, h: 20},
-              {x: 55, y: 100, w: 5, h: 5},
-              {x: 40, y: 230, w: 100, h: 20}
-            ]
+            example:
+              [
+                { x: 30, y: 10, w: 100, h: 20 },
+                { x: 55, y: 100, w: 5, h: 5 },
+                { x: 40, y: 230, w: 100, h: 20 },
+              ]
           scores:
             type: array
             items:
