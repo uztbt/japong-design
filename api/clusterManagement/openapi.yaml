@@ -11,6 +11,18 @@ servers:
 - url: https://japong.yuji.page
   description: Production cluster manager server
 paths:
+  /nodes:
+    get:
+      description: Returns the info of nodes
+      responses:
+        200:
+          description: A list of JaPong nodes.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NodeOverview'
   /games:
     get:
       description: Returns the overview of all the game rooms belonging to the cluster.
@@ -78,6 +90,23 @@ paths:
                     - ROOM_ALREADY_FULL
 components:
   schemas:
+    NodeOverview:
+      type: object
+      properties:
+        region:
+          type: string
+          enum:
+            - asia-northeast
+            - us-central
+        nodeNo:
+          type: integer
+          example: 0
+        rooms:
+          type: integer
+          example: 5
+        url:
+          type: string
+          example: https://japong-server-wpnqyv3xza-an.a.run.app
     GameOverview:
       type: object
       properties:
